@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>John Doe — Game Developer / Programmer</title>
+  <meta name="description" content="Portfolio website of a game developer/programmer showcasing projects, experiments, and contact info." />
+  <style>
+    :root {
+      --bg: #0b0f14;
+      --bg-elev: #121821;
+      --text: #e8eef6;
+      --muted: #b8c4d6;
+      --primary: #7aa2ff;
+      --accent: #63e6be;
+      --card: #0f141b;
+      --border: #1b2430;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius: 16px;
+      --pad: clamp(16px, 3vw, 32px);
+      --maxw: 1100px;
+    }
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg: #f6f8fb;
+        --bg-elev: #ffffff;
+        --text: #0b1220;
+        --muted: #435065;
+        --primary: #3456ff;
+        --accent: #00b884;
+        --card: #ffffff;
+        --border: #e6eaf2;
+        --shadow: 0 8px 24px rgba(10,40,120,.12);
+      }
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Inter, "Helvetica Neue", Arial, Noto Sans, "Apple Color Emoji", "Segoe UI Emoji";
+      background: var(--bg); color: var(--text); line-height: 1.5;
+    }
+    a{color:inherit; text-decoration:none}
+    .container{max-width: var(--maxw); margin: 0 auto; padding: 0 var(--pad)}
+    .btn{display:inline-block; padding:12px 18px; border-radius: 999px; border:1px solid var(--border); background: linear-gradient(180deg, var(--bg-elev), var(--card)); color: var(--text); box-shadow: var(--shadow); transition: transform .08s ease, background .2s ease, border-color .2s ease}
+    .btn:hover{transform: translateY(-1px); border-color: var(--primary)}
+    .btn.primary{background: linear-gradient(180deg, var(--primary), #4b6cff); color:white; border-color: transparent}
+    .badge{display:inline-flex; gap:.5rem; align-items:center; padding:6px 10px; border-radius: 999px; background: rgba(122,162,255,.12); color: var(--primary); border: 1px solid rgba(122,162,255,.28)}
+
+    /* Navbar */
+    .nav{position: sticky; top: 0; z-index: 50; backdrop-filter: blur(10px); background: color-mix(in oklab, var(--bg) 85%, transparent); border-bottom: 1px solid var(--border)}
+    .nav-inner{display:flex; align-items:center; justify-content:space-between; gap:1rem; height:64px}
+    .brand{font-weight:700; letter-spacing:.2px}
+    .brand span{opacity:.7; font-weight:600}
+    .nav-links{display:flex; gap:.75rem; align-items:center}
+    .nav-links a{padding:8px 12px; border-radius:10px; border:1px solid transparent}
+    .nav-links a:hover{border-color:var(--border); background: var(--bg-elev)}
+    .nav-toggle{display:none}
+    @media (max-width: 820px){
+      .nav-inner{height:auto; flex-wrap:wrap; padding-top:.5rem; padding-bottom:.5rem}
+      .nav-toggle{display:inline-flex}
+      .nav-links{width:100%; flex-wrap:wrap}
+    }
+
+    /* Hero */
+    .hero{position:relative; overflow:hidden; padding: clamp(64px, 12vh, 120px) 0}
+    .hero-grid{display:grid; grid-template-columns: 1.2fr .8fr; gap: clamp(16px, 4vw, 40px); align-items:center}
+    .hero h1{font-size: clamp(28px, 5vw, 48px); margin: 0 0 12px}
+    .hero p{font-size: clamp(16px, 2.2vw, 20px); color: var(--muted); margin: 0 0 24px}
+    .cta{display:flex; gap:12px; flex-wrap:wrap}
+    .mock{
+      border-radius: var(--radius); border:1px solid var(--border); background: radial-gradient(80% 60% at 50% 0%, rgba(122,162,255,.12), transparent 65%), var(--card);
+      min-height: 280px; box-shadow: var(--shadow); position:relative; overflow:hidden
+    }
+    .mock::after{content:"Gameplay Preview"; position:absolute; bottom:10px; right:12px; font-size:12px; color:var(--muted)}
+    .mock svg{width:100%; height:100%; display:block}
+    @media (max-width: 900px){.hero-grid{grid-template-columns: 1fr}}
+
+    /* Section */
+    section{padding: 64px 0}
+    .section-title{font-size: clamp(22px, 3.2vw, 32px); margin: 0 0 12px}
+    .section-desc{color: var(--muted); margin: 0 0 24px}
+
+    /* About */
+    .about-grid{display:grid; grid-template-columns: 240px 1fr; gap: 24px}
+    .avatar{border-radius: 50%; width: 200px; height: 200px; border: 8px solid var(--bg); box-shadow: var(--shadow); background: linear-gradient(135deg, rgba(122,162,255,.25), rgba(99,230,190,.22))}
+    .about-card{background: var(--card); border:1px solid var(--border); border-radius: var(--radius); padding: var(--pad)}
+    .skills{display:flex; flex-wrap:wrap; gap:8px}
+    @media (max-width: 820px){.about-grid{grid-template-columns: 1fr; justify-items:center}}
+
+    /* Projects */
+    .grid{display:grid; grid-template-columns: repeat(3, 1fr); gap: 18px}
+    @media (max-width: 1000px){.grid{grid-template-columns: repeat(2, 1fr)}}
+    @media (max-width: 640px){.grid{grid-template-columns: 1fr}}
+    .card{background: var(--card); border:1px solid var(--border); border-radius: var(--radius); overflow:hidden; display:flex; flex-direction:column; box-shadow: var(--shadow)}
+    .thumb{aspect-ratio: 16/9; background: linear-gradient(120deg, rgba(122,162,255,.18), rgba(99,230,190,.18)); border-bottom:1px solid var(--border); position:relative}
+    .thumb::after{content:"Media"; position:absolute; bottom:8px; right:10px; font-size:12px; color:var(--muted)}
+    .card-body{padding:16px}
+    .meta{display:flex; gap:8px; flex-wrap:wrap; margin-top:8px}
+    .pill{font-size:12px; padding:4px 8px; border-radius:999px; border:1px solid var(--border); background: var(--bg-elev); color: var(--muted)}
+    .card-actions{display:flex; gap:10px; padding: 0 16px 16px}
+
+    /* Playground */
+    .play-item .thumb{aspect-ratio: 1/1}
+
+    /* Footer / Contact */
+    .contact{background: linear-gradient(180deg, var(--bg-elev), var(--card)); border-top:1px solid var(--border)}
+    .contact .wrap{display:grid; grid-template-columns: 1.2fr .8fr; gap: 24px; align-items:center}
+    .contact h3{margin:0 0 10px}
+    .contact p{margin:0 0 16px; color: var(--muted)}
+    .socials{display:flex; gap:10px}
+    .socials a{padding:10px 12px; border:1px solid var(--border); border-radius:12px; background: var(--bg-elev)}
+    @media (max-width: 900px){.contact .wrap{grid-template-columns:1fr}}
+
+    /* Utilities */
+    .muted{color: var(--muted)}
+    .spacer{height: 12px}
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+    .divider{height:1px; background: var(--border); margin: 12px 0}
+  </style>
+</head>
+<body>
+  <!-- NAVBAR -->
+  <nav class="nav" aria-label="Primary">
+    <div class="container nav-inner">
+      <a href="#home" class="brand">John Doe <span>• Game Dev / Programmer</span></a>
+      <button class="btn nav-toggle" aria-controls="navlinks" aria-expanded="false" onclick="toggleNav()">Menu</button>
+      <div id="navlinks" class="nav-links" role="navigation">
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#playground">Playground</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO / INTRO -->
+  <header id="home" class="hero">
+    <div class="container hero-grid">
+      <div>
+        <span class="badge" aria-hidden="true">Open to opportunities</span>
+        <h1>Building playful systems with clean, scalable code.</h1>
+        <p>
+          I specialize in gameplay programming, systems design, and tooling. Strong focus on Unity (C#), performance, and rapid prototyping.
+        </p>
+        <div class="cta">
+          <a class="btn primary" href="#projects">View Projects</a>
+          <a class="btn" href="#contact">Contact Me</a>
+        </div>
+      </div>
+      <div class="mock" aria-label="Gameplay preview mock">
+        <!-- Inline SVG placeholder (replace with GIF/video or canvas later) -->
+        <svg viewBox="0 0 680 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Gameplay placeholder">
+          <defs>
+            <linearGradient id="g1" x1="0" x2="1">
+              <stop offset="0%" stop-color="#7aa2ff" stop-opacity="0.35"/>
+              <stop offset="100%" stop-color="#63e6be" stop-opacity="0.35"/>
+            </linearGradient>
+          </defs>
+          <rect width="680" height="420" fill="url(#g1)"/>
+          <g stroke="#ffffff33" stroke-width="2">
+            <rect x="30" y="30" width="200" height="120" rx="12" fill="#ffffff12" />
+            <rect x="260" y="60" width="180" height="80" rx="10" fill="#ffffff12" />
+            <rect x="470" y="40" width="180" height="120" rx="12" fill="#ffffff12" />
+            <rect x="60" y="190" width="180" height="140" rx="12" fill="#ffffff12" />
+            <rect x="270" y="190" width="180" height="140" rx="12" fill="#ffffff12" />
+            <rect x="480" y="200" width="160" height="140" rx="12" fill="#ffffff12" />
+          </g>
+          <text x="40" y="380" fill="#e8eef6" opacity="0.7" font-size="18">Replace this with a short gameplay GIF or video</text>
+        </svg>
+      </div>
+    </div>
+  </header>
+
+  <!-- ABOUT -->
+  <section id="about" aria-labelledby="about-title">
+    <div class="container about-grid">
+      <div style="display:grid; place-items:center">
+        <div class="avatar" aria-hidden="true"></div>
+        <div class="spacer"></div>
+      </div>
+      <div class="about-card">
+        <h2 id="about-title" class="section-title">About Me</h2>
+        <p class="section-desc">Hi, I’m John — a gameplay programmer focused on Unity (C#) and rapid prototyping. I love turning systems into satisfying moment-to-moment play.</p>
+        <div class="divider"></div>
+        <p class="muted">Core skills:</p>
+        <div class="skills">
+          <span class="pill">Unity</span>
+          <span class="pill">C#</span>
+          <span class="pill">Python</span>
+          <span class="pill">Gameplay Systems</span>
+          <span class="pill">AI / Pathfinding</span>
+          <span class="pill">Optimization</span>
+          <span class="pill">Tools & Pipelines</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects" aria-labelledby="projects-title">
+    <div class="container">
+      <h2 id="projects-title" class="section-title">Projects</h2>
+      <p class="section-desc">A selection of released and in-progress titles. Each entry links to builds and code where possible.</p>
+      <div class="grid">
+        <!-- Project card 1 -->
+        <article class="card">
+          <div class="thumb" aria-hidden="true"></div>
+          <div class="card-body">
+            <h3>Overlord Idle — 2025</h3>
+            <p class="muted">Designed and coded core progression loop, resource systems, and performance-sensitive update architecture.</p>
+            <div class="meta">
+              <span class="pill">Unity</span>
+              <span class="pill">C#</span>
+              <span class="pill">DOTS-friendly</span>
+            </div>
+          </div>
+          <div class="card-actions">
+            <a class="btn" href="#" aria-label="Open playable build for Overlord Idle">Play Build</a>
+            <a class="btn" href="#" aria-label="Open source code for Overlord Idle">GitHub</a>
+          </div>
+        </article>
+
+        <!-- Project card 2 -->
+        <article class="card">
+          <div class="thumb" aria-hidden="true"></div>
+          <div class="card-body">
+            <h3>Necromancer Tactics — 2025</h3>
+            <p class="muted">Crafting-driven auto-battler: built minion synthesis system, cost balancing, and combat simulation.</p>
+            <div class="meta">
+              <span class="pill">Unity</span>
+              <span class="pill">C#</span>
+              <span class="pill">AI</span>
+            </div>
+          </div>
+          <div class="card-actions">
+            <a class="btn" href="#">Devlog</a>
+            <a class="btn" href="#">GitHub</a>
+          </div>
+        </article>
+
+        <!-- Project card 3 -->
+        <article class="card">
+          <div class="thumb" aria-hidden="true"></div>
+          <div class="card-body">
+            <h3>VR QC Trainer — 2024</h3>
+            <p class="muted">VR training app for textile quality control. Implemented interaction models and scenario authoring tools.</p>
+            <div class="meta">
+              <span class="pill">Unity</span>
+              <span class="pill">C#</span>
+              <span class="pill">XR</span>
+            </div>
+          </div>
+          <div class="card-actions">
+            <a class="btn" href="#">Case Study</a>
+            <a class="btn" href="#">GitHub</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLAYGROUND / EXPERIMENTS -->
+  <section id="playground" aria-labelledby="playground-title">
+    <div class="container">
+      <h2 id="playground-title" class="section-title">Playground & Experiments</h2>
+      <p class="section-desc">Small prototypes and tests. Fast to build, fun to break.</p>
+      <div class="grid">
+        <article class="card play-item">
+          <div class="thumb" aria-hidden="true"></div>
+          <div class="card-body">
+            <h3>Procedural Dungeon</h3>
+            <p class="muted">Wave-function-like generator with seed controls and debug overlays.</p>
+            <div class="meta"><span class="pill">C#</span><span class="pill">Procedural</span></div>
+          </div>
+        </article>
+        <article class="card play-item">
+          <div class="thumb" aria-hidden="true"></div>
+          <div class="card-body">
+            <h3>Boids + Navmesh</h3>
+            <p class="muted">Hybrid flocking using local avoidance + Unity NavMesh for macro goals.</p>
+            <div class="meta"><span class="pill">AI</span><span class="pill">Unity</span></div>
+          </div>
+        </article>
+        <article class="card play-item">
+          <div class="thumb" aria-hidden="true"></div>
+          <div class="card-body">
+            <h3>Stylized Water</h3>
+            <p class="muted">Vertex-displaced shader with Gerstner waves and foam banding.</p>
+            <div class="meta"><span class="pill">Shaders</span><span class="pill">URP</span></div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <footer id="contact" class="contact" aria-labelledby="contact-title">
+    <div class="container wrap">
+      <div>
+        <h3 id="contact-title" class="section-title">Let’s build something great.</h3>
+        <p>Interested in working together or have a question? I’m open to freelance, full-time, and collaboration opportunities.</p>
+      </div>
+      <div>
+        <div class="about-card" style="padding:20px">
+          <p><strong>Email:</strong> <a href="mailto:john@example.com" aria-label="Email John">john@example.com</a></p>
+          <div class="spacer"></div>
+          <div class="socials" aria-label="Social Links">
+            <a href="#" aria-label="Open LinkedIn profile">LinkedIn</a>
+            <a href="#" aria-label="Open GitHub profile">GitHub</a>
+            <a href="#" aria-label="Open Itch.io profile">Itch.io</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container" style="padding: 24px var(--pad); text-align:center; color:var(--muted)">
+      <small>© <span id="year"></span> John Doe. All rights reserved.</small>
+    </div>
+  </footer>
+
+  <script>
+    // Dynamic year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Simple mobile nav toggle
+    function toggleNav(){
+      const btn = document.querySelector('.nav-toggle');
+      const links = document.getElementById('navlinks');
+      const expanded = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', String(!expanded));
+      links.style.display = expanded ? '' : 'flex';
+    }
+  </script>
+</body>
+</html>
