@@ -1,1 +1,1 @@
-# [akadus.github.io](https://akaduss.github.io/akadus/)
+# [akadus.github.io](https://akaduss.github.io)
